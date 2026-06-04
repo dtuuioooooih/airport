@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airport Self Storage</title>
+  <style>
+    :root {
+      --red: #d7261e;
+      --black: #090909;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.5;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 620px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.22);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 82px;
+      z-index: 4;
+      background: rgba(0, 0, 0, 0.32);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .top-left-logo {
+      position: absolute;
+      top: 12px;
+      left: 18px;
+      width: clamp(88px, 10vw, 150px);
+      z-index: 5;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,.35));
+    }
+
+    .center-logo-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      pointer-events: none;
+      padding: 20px;
+    }
+
+    .center-logo {
+      width: min(600px, 78vw);
+      max-height: 50vh;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.45));
+      opacity: 0.98;
+    }
+
+    .quote-section {
+      background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+      padding: 72px 22px;
+    }
+
+    .quote-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .quote-copy,
+    .quote-card {
+      background: var(--white);
+      border-radius: 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .quote-copy {
+      position: relative;
+      padding: 42px;
+      border-top: 7px solid var(--red);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: var(--red);
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .88rem;
+    }
+
+    .quote-copy h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .quote-copy p {
+      font-size: 1.05rem;
+      color: #333;
+      margin-bottom: 18px;
+      max-width: 52ch;
+    }
+
+    .features {
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #fafafa;
+      border: 1px solid #ececec;
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .feature-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--red);
+      color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex: 0 0 34px;
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .quote-card {
+      background: var(--black);
+      color: var(--white);
+      padding: 34px;
+      border: 2px solid var(--red);
+    }
+
+    .quote-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .quote-card p {
+      color: #ddd;
+      margin-bottom: 22px;
+    }
+
+    .quote-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .quote-form input,
+    .quote-form select,
+    .quote-form textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      border-radius: 12px;
+      padding: 15px 16px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .quote-form input::placeholder,
+    .quote-form textarea::placeholder {
+      color: #cfcfcf;
+    }
+
+    .quote-form select {
+      color: #f0f0f0;
+    }
+
+    .quote-form option {
+      color: #000;
+    }
+
+    .quote-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .quote-form button {
+      border: none;
+      background: var(--red);
+      color: var(--white);
+      padding: 16px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .quote-form button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .small-note {
+      font-size: .9rem;
+      color: #bebebe;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .quote-container {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-copy,
+      .quote-card {
+        padding: 28px;
+      }
+
+      .top-bar {
+        height: 68px;
+      }
+
+      .top-left-logo {
+        width: clamp(78px, 22vw, 120px);
+        top: 10px;
+        left: 14px;
+      }
+
+      .center-logo {
+        width: min(500px, 86vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" aria-label="Hero section">
+    <video autoplay muted loop playsinline preload="metadata">
+      <source src="assets/hero-video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="top-bar" aria-hidden="true"></div>
+
+    <img class="top-left-logo" src="assets/airport-logo.png" alt="Airport Self Storage logo" />
+
+    <div class="center-logo-wrap">
+      <img class="center-logo" src="assets/airport-logo.png" alt="Airport Self Storage logo" />
+    </div>
+  </section>
+
+  <section class="quote-section" id="quote">
+    <div class="quote-container">
+      <div class="quote-copy">
+        <span class="eyebrow">Airport Self Storage</span>
+        <h2>Request a Quick Quote</h2>
+        <p>
+          Clean, secure, and convenient self storage with a bold, simple experience.
+          Send over a few details and we can help match you with the right storage option.
+        </p>
+
+        <div class="features">
+          <div class="feature">
+            <span class="feature-badge">1</span>
+            <div>
+              <strong>Fast response</strong>
+              Share your storage needs and we can follow up with pricing and availability.
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-badge">2</span>
+            <div>
+              <strong>Simple process</strong>
+              Provide the basics, choose a size, and tell us when you’re ready to move in.
+            </div>
+          </div>
+
+          <div class="feature">
+            <span class="feature-badge">3</span>
+            <div>
+              <strong>Clean quote request</strong>
+              Built with a red, white, and black theme to match the brand.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <h3>Get Your Quote</h3>
+        <p>Fill out the form below and we’ll follow up with more information.</p>
+
+        <form class="quote-form" action="https://formsubmit.co/1022am1022@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New Airport Self Storage Quote Request" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+
+          <input type="text" name="Full Name" placeholder="Full Name" required />
+          <input type="tel" name="Phone Number" placeholder="Phone Number" required />
+          <input type="email" name="Email Address" placeholder="Email Address" required />
+
+          <select name="Storage Size" required>
+            <option value="">Select Storage Size</option>
+            <option>Small Unit</option>
+            <option>Medium Unit</option>
+            <option>Large Unit</option>
+            <option>Not Sure Yet</option>
+          </select>
+
+          <input type="text" name="Preferred Move-In Date" placeholder="Preferred Move-In Date" />
+          <textarea name="Message" placeholder="Tell us what you need"></textarea>
+          <button type="submit">Request Quote</button>
+
+          <div class="small-note">When submitted, the quote request is sent to the connected email.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
